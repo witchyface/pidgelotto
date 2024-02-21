@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "cmdibuzz",
+  "version": "${version}",
+  "name": "cmdibuzz",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/snomnomnom/cmdibuzz"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/cmdibuzz/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "client": [],
+    "main": [
+      "in.usera.cmdibuzz.Cmdibuzz"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
