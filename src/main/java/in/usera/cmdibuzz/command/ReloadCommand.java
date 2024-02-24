@@ -24,7 +24,7 @@ public class ReloadCommand {
         dispatcher.register(CommandManager.literal("reloadcmdibuzz").executes(ReloadCommand::execute));
     }
 
-    private static int execute(CommandContext<ServerCommandSource> commandSourceCommandContext) {
+    static int execute(CommandContext<ServerCommandSource> commandSourceCommandContext) {
         ServerCommandSource source = commandSourceCommandContext.getSource();
     try {
         reload(commandSourceCommandContext.getSource().getServer());
