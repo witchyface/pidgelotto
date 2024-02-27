@@ -26,10 +26,7 @@ public class CmdibuzzConfig {
     public static String TEST_STRING = "This is a test";
 
     public CmdibuzzConfig() {
-        this.init();
-    }
 
-    public void init() {
         File configFolder = new File(System.getProperty("user.dir") + "/config/cmdibuzz");
         File configFile = new File(configFolder, "config.json");
         if (!configFolder.exists()) {
@@ -48,7 +45,8 @@ public class CmdibuzzConfig {
                     COMMAND_POOLS.put(name, commands);
                     Cmdibuzz.LOGGER.info("Loaded command pool \"" + name + "\" (" + commands.size() + " commands)");
 
-                });
+                }
+                );
             }));
         } catch (Exception e) {
             throw new RuntimeException(e);

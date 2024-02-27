@@ -12,6 +12,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import in.usera.cmdibuzz.Cmdibuzz;
 import in.usera.cmdibuzz.config.CmdibuzzConfig;
 import in.usera.cmdibuzz.config.SuggestionProvider;
+import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.GameProfileArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -20,11 +21,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 public class CmdibuzzCommand {
 
@@ -38,18 +37,26 @@ public class CmdibuzzCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
         dispatcher.register(
-                (LiteralArgumentBuilder<ServerCommandSource>) CommandManager.literal("cmdibuzz")
-                        .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(3))
-                        .then(baseCommand)
-                .then(runSubCommand)
-                .then(reloadSubCommand)
+                CommandManager.literal("cmdibuzz")
+                        .executes(CmdibuzzCommand::executeBaseCommand) // Allow all players to execute this
+                        .then(
+                                CommandManager.literal("run")
+                                        .requires(Permissions.require("cmdibuzz.command.run"))
+                                        .then(poolArgument.then(playerArgument.executes(CmdibuzzCommand::executeRunSubCommand)))
+                        )
+                        .then(
+                                CommandManager.literal("reload")
+                                        .requires(Permissions.require("cmdibuzz.command.reload"))
+                                        .executes(ReloadCommand::execute)
+                        )
         );
     }
 
     private static int executeBaseCommand(CommandContext<ServerCommandSource> context)
         throws CommandSyntaxException {
         ServerCommandSource source = context.getSource();
-        source.sendMessage(Text.literal("This is the base command")
+        source.sendMessage(Text.literal("Cmdibuzz (2024): Author (UseRainDance), Credits to Licious and Alxnns1.")
+
                 .setStyle(Style.EMPTY.withColor(Formatting.GOLD)));
         return 1;
     }

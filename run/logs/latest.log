@@ -1,0 +1,89 @@
+[20:08:16] [main/INFO] (FabricLoader/GameProvider) Loading Minecraft 1.20.1 with Fabric Loader 0.15.7
+[20:08:16] [main/INFO] (FabricLoader) Loading 47 mods:
+	- cmdibuzz 1.0-1.20.1
+	- fabric-api 0.92.0+1.20.1
+	- fabric-api-base 0.4.31+1802ada577
+	- fabric-api-lookup-api-v1 1.6.36+1802ada577
+	- fabric-biome-api-v1 13.0.13+1802ada577
+	- fabric-block-api-v1 1.0.11+1802ada577
+	- fabric-block-view-api-v2 1.0.1+1802ada577
+	- fabric-command-api-v1 1.2.34+f71b366f77
+	- fabric-command-api-v2 2.2.13+1802ada577
+	- fabric-commands-v0 0.2.51+df3654b377
+	- fabric-containers-v0 0.1.64+df3654b377
+	- fabric-content-registries-v0 4.0.11+1802ada577
+	- fabric-convention-tags-v1 1.5.5+1802ada577
+	- fabric-crash-report-info-v1 0.2.19+1802ada577
+	- fabric-data-attachment-api-v1 1.0.0+de0fd6d177
+	- fabric-data-generation-api-v1 12.3.4+1802ada577
+	- fabric-dimensions-v1 2.1.54+1802ada577
+	- fabric-entity-events-v1 1.6.0+1c78457f77
+	- fabric-events-interaction-v0 0.6.2+1802ada577
+	- fabric-events-lifecycle-v0 0.2.63+df3654b377
+	- fabric-game-rule-api-v1 1.0.40+1802ada577
+	- fabric-gametest-api-v1 1.2.13+1802ada577
+	- fabric-item-api-v1 2.1.28+1802ada577
+	- fabric-item-group-api-v1 4.0.12+1802ada577
+	- fabric-lifecycle-events-v1 2.2.22+1802ada577
+	- fabric-loot-api-v2 1.2.1+1802ada577
+	- fabric-loot-tables-v1 1.1.45+9e7660c677
+	- fabric-message-api-v1 5.1.9+1802ada577
+	- fabric-mining-level-api-v1 2.1.50+1802ada577
+	- fabric-networking-api-v1 1.3.11+1802ada577
+	- fabric-networking-v0 0.3.51+df3654b377
+	- fabric-object-builder-api-v1 11.1.3+1802ada577
+	- fabric-particles-v1 1.1.2+1802ada577
+	- fabric-permissions-api-v0 0.2-SNAPSHOT
+	- fabric-recipe-api-v1 1.0.21+1802ada577
+	- fabric-registry-sync-v0 2.3.3+1802ada577
+	- fabric-rendering-data-attachment-v1 0.3.37+92a0d36777
+	- fabric-rendering-fluids-v1 3.0.28+1802ada577
+	- fabric-resource-conditions-api-v1 2.3.8+1802ada577
+	- fabric-resource-loader-v0 0.11.10+1802ada577
+	- fabric-screen-handler-api-v1 1.3.30+1802ada577
+	- fabric-transfer-api-v1 3.3.4+1802ada577
+	- fabric-transitive-access-wideners-v1 4.3.1+1802ada577
+	- fabricloader 0.15.7
+	- java 17
+	- minecraft 1.20.1
+	- mixinextras 0.3.5
+[20:08:16] [main/INFO] (FabricLoader/Mixin) SpongePowered MIXIN Subsystem Version=0.8.5 Source=file:/C:/Users/Rainy/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.12.5+mixin.0.8.5/8d31fb97c3e0cd7c8dad3441851c523bcfae6d8e/sponge-mixin-0.12.5+mixin.0.8.5.jar Service=Knot/Fabric Env=SERVER
+[20:08:16] [main/INFO] (FabricLoader/Mixin) Loaded Fabric development mappings for mixin remapper!
+[20:08:16] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_16
+[20:08:16] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_17
+[20:08:17] [main/INFO] (FabricLoader/MixinExtras|Service) Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.3.5).
+[20:08:25] [main/INFO] (cmdibuzz) Initializing Cmdibuzz.
+[20:08:25] [main/INFO] (cmdibuzz) Loaded command pool "example1" (3 commands)
+[20:08:25] [main/INFO] (cmdibuzz) Loaded command pool "example2" (3 commands)
+[20:08:25] [main/INFO] (cmdibuzz) Loaded command pool "poke_clash" (9 commands)
+[20:08:25] [main/INFO] (cmdibuzz) Cmdibuzz initialized!
+[20:08:26] [main/INFO] (Minecraft) Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[20:08:27] [main/INFO] (Minecraft) Loaded 7 recipes
+[20:08:28] [main/INFO] (Minecraft) Loaded 1271 advancements
+[20:08:28] [main/INFO] (BiomeModificationImpl) Applied 0 biome modifications to 0 of 64 new biomes in 1.870 ms
+[20:08:28] [Server thread/INFO] (Minecraft) Starting minecraft server version 1.20.1
+[20:08:28] [Server thread/INFO] (Minecraft) Loading properties
+[20:08:28] [Server thread/INFO] (Minecraft) Default game type: SURVIVAL
+[20:08:28] [Server thread/INFO] (Minecraft) Generating keypair
+[20:08:28] [Server thread/INFO] (Minecraft) Starting Minecraft server on *:25565
+[20:08:28] [Server thread/INFO] (Minecraft) Using default channel type
+[20:08:29] [Server thread/INFO] (Minecraft) Preparing level "world"
+[20:08:30] [Server thread/INFO] (Minecraft) Preparing start region for dimension minecraft:overworld
+[20:08:31] [Worker-Main-4/INFO] (Minecraft) Preparing spawn area: 0%
+[20:08:31] [Worker-Main-4/INFO] (Minecraft) Preparing spawn area: 0%
+[20:08:31] [Worker-Main-4/INFO] (Minecraft) Preparing spawn area: 0%
+[20:08:31] [Worker-Main-7/INFO] (Minecraft) Preparing spawn area: 0%
+[20:08:32] [Worker-Main-2/INFO] (Minecraft) Preparing spawn area: 25%
+[20:08:32] [Worker-Main-4/INFO] (Minecraft) Preparing spawn area: 33%
+[20:08:33] [Worker-Main-1/INFO] (Minecraft) Preparing spawn area: 35%
+[20:08:33] [Worker-Main-1/INFO] (Minecraft) Preparing spawn area: 35%
+[20:08:34] [Worker-Main-1/INFO] (Minecraft) Preparing spawn area: 59%
+[20:08:34] [Worker-Main-9/INFO] (Minecraft) Preparing spawn area: 74%
+[20:08:35] [Worker-Main-2/INFO] (Minecraft) Preparing spawn area: 83%
+[20:08:35] [Worker-Main-9/INFO] (Minecraft) Preparing spawn area: 89%
+[20:08:36] [Worker-Main-2/INFO] (Minecraft) Preparing spawn area: 98%
+[20:08:36] [Server thread/INFO] (Minecraft) Time elapsed: 6053 ms
+[20:08:36] [Server thread/INFO] (Minecraft) Done (7.225s)! For help, type "help"
+[20:08:41] [User Authenticator #1/INFO] (Minecraft) UUID of player UseRainDance is 729ca056-726f-4be0-a872-cd0ffb095832
+[20:08:41] [Server thread/INFO] (Minecraft) UseRainDance[/127.0.0.1:54277] logged in with entity id 118 at (0.5, 68.0, -7.5)
+[20:08:41] [Server thread/INFO] (Minecraft) UseRainDance joined the game

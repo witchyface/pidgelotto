@@ -15,7 +15,7 @@ import java.nio.file.Path;
 
 public class ReloadCommand {
 
-    private static CmdibuzzConfig CONFIG = new CmdibuzzConfig();
+    private static CmdibuzzConfig CONFIG;
 
     private ReloadCommand() {}
 
@@ -31,6 +31,10 @@ public class ReloadCommand {
     return 0;
     }
     public static void reload(MinecraftServer server) throws IOException {
+        // Clear the existing configuration data
+        CmdibuzzConfig.COMMAND_POOLS.clear();
+
+        // Reload the configuration
         CONFIG = new CmdibuzzConfig();
     }
 }
