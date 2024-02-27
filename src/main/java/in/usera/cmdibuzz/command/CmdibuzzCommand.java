@@ -17,66 +17,73 @@ import net.minecraft.command.argument.GameProfileArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class CmdibuzzCommand {
 
     public static final RequiredArgumentBuilder<ServerCommandSource, GameProfileArgumentType.GameProfileArgument> playerArgument = CommandManager.argument("player", GameProfileArgumentType.gameProfile());
     private static final RequiredArgumentBuilder<ServerCommandSource, String> poolArgument = CommandManager.argument("pool", StringArgumentType.string()).suggests(CmdibuzzCommand::getCommandPoolSuggestions);
-    private static final LiteralArgumentBuilder runSubCommand;
-    private static final LiteralArgumentBuilder reloadSubCommand;
+    private static final LiteralArgumentBuilder baseCommand = CommandManager.literal("cmdibuzz").executes(CmdibuzzCommand::executeBaseCommand);
+    private static final LiteralArgumentBuilder runSubCommand = CommandManager.literal("run").then(poolArgument.then(playerArgument.executes(CmdibuzzCommand::executeRunSubCommand)));
+    private static final LiteralArgumentBuilder reloadSubCommand = CommandManager.literal("reload").executes(ReloadCommand::execute);
+
 
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
-        dispatcher.register(CommandManager.literal("cmdibuzz").executes(CmdibuzzCommand::baseCommand)
-                .then(CommandManager.literal("reload").executes(ReloadCommand::execute))
-                .then(CommandManager.literal("run").executes(CmdibuzzCommand::executeRunSubCommand))
+        dispatcher.register(
+                (LiteralArgumentBuilder<ServerCommandSource>) CommandManager.literal("cmdibuzz")
+                        .requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(3))
+                        .then(baseCommand)
+                .then(runSubCommand)
+                .then(reloadSubCommand)
         );
     }
 
-    private static int baseCommand(CommandContext<ServerCommandSource> commandSourceCommandContext)
+    private static int executeBaseCommand(CommandContext<ServerCommandSource> context)
         throws CommandSyntaxException {
-        ServerCommandSource source = commandSourceCommandContext.getSource();
-        source.sendMessage(Text.literal("This is the base command"));
+        ServerCommandSource source = context.getSource();
+        source.sendMessage(Text.literal("This is the base command")
+                .setStyle(Style.EMPTY.withColor(Formatting.GOLD)));
         return 1;
     }
 
-    private static int executeReloadSubCommand(CommandContext<ServerCommandSource> commandSourceCommandContext)
-            throws CommandSyntaxException {
-        ServerCommandSource source = commandSourceCommandContext.getSource();
-        source.sendMessage(Text.literal("This is the reload command"));
-        return 1;
-    }
-    private static int executeRunSubCommand(CommandContext<ServerCommandSource> commandSourceCommandContext)
-            throws CommandSyntaxException {
-        String pool = (String) commandSourceCommandContext.getArgument("pool", String.class);
-        Collection<GameProfile> gameProfiles = GameProfileArgumentType.getProfileArgument(commandSourceCommandContext, playerArgument.getName());
-        List<String> commands = (List)CmdibuzzConfig.COMMAND_POOLS.get(pool);
-        String randomCommand = (String)commands.get((int)Math.floor(Math.random() + (double)commands.size()));
-        Cmdibuzz.LOGGER.info("Running command \"" + randomCommand + "\" from pool \"" + pool + "\" for " + gameProfiles.size() + " players");
-        gameProfiles.forEach((gameProfile -> {
-            String formattedRandomCommand = randomCommand.replace("{player}", gameProfile.getName());
-            Cmdibuzz.LOGGER.info("Running command \"" + formattedRandomCommand + "\" for " + gameProfile.getName());
-            ((ServerCommandSource)commandSourceCommandContext.getSource()).getServer().getCommandManager().executeWithPrefix(((ServerCommandSource)commandSourceCommandContext
-                    .getSource()).getServer().getCommandSource(), formattedRandomCommand);
-        }));
+    private static int executeRunSubCommand(CommandContext<ServerCommandSource> context) {
+        try {
+            String pool = context.getArgument("pool", String.class);
+            Collection<GameProfile> gameProfiles = GameProfileArgumentType.getProfileArgument(context, playerArgument.getName());
+            List<String> commands = CmdibuzzConfig.COMMAND_POOLS.get(pool);
 
-        return 1;
+            if (commands == null || commands.isEmpty()) {
+                throw new IllegalArgumentException("No commands found in the specified pool: " + pool);
+            }
+
+            String randomCommand = commands.get((int) Math.floor(Math.random() * commands.size()));
+            Cmdibuzz.LOGGER.info("Running command \"" + randomCommand + "\" from pool \"" + pool + "\" for " + gameProfiles.size() + " players");
+
+            gameProfiles.forEach((gameProfile -> {
+                String formattedRandomCommand = randomCommand.replace("{player}", gameProfile.getName());
+                Cmdibuzz.LOGGER.info("Running command \"" + formattedRandomCommand + "\" for " + gameProfile.getName());
+                context.getSource().getServer().getCommandManager().executeWithPrefix(context.getSource()
+                        .getServer().getCommandSource(), formattedRandomCommand);
+            }));
+
+            return 1;
+        } catch (Exception e) {
+            Cmdibuzz.LOGGER.error("An unexpected error occurred while executing the command: " + e.getMessage());
+            e.printStackTrace(); // You can choose to remove this line in production
+            return 0; // Return 0 to indicate failure
+        }
     }
 
     private static CompletableFuture<Suggestions> getCommandPoolSuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-        Set var10000 = CmdibuzzConfig.COMMAND_POOLS.keySet();
-        Objects.requireNonNull(builder);
-        var10000.forEach(builder::suggest);
+     CmdibuzzConfig.COMMAND_POOLS.keySet().forEach(builder::suggest);
         return builder.buildFuture();
-    }
-
-    static {
-        runSubCommand = CommandManager.literal("run").then(poolArgument.then(playerArgument.executes(CmdibuzzCommand::executeRunSubCommand)));
-        reloadSubCommand = CommandManager.literal("reload").executes(CmdibuzzCommand::executeReloadSubCommand);
     }
 }

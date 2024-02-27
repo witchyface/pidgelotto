@@ -18,16 +18,11 @@ public class ReloadCommand {
     private static CmdibuzzConfig CONFIG = new CmdibuzzConfig();
 
     private ReloadCommand() {}
-    private static Text reloadText;
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher,
-                                CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
-        dispatcher.register(CommandManager.literal("reloadcmdibuzz").executes(ReloadCommand::execute));
-    }
 
-    static int execute(CommandContext<ServerCommandSource> commandSourceCommandContext) {
-        ServerCommandSource source = commandSourceCommandContext.getSource();
+    static int execute(CommandContext<ServerCommandSource> context) {
+        ServerCommandSource source = context.getSource();
     try {
-        reload(commandSourceCommandContext.getSource().getServer());
+        reload(context.getSource().getServer());
         source.sendMessage(Text.of("Reload was successful"));
     } catch (IOException e) {
         source.sendMessage(Text.of("Something unexpected happened."));
