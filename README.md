@@ -8,3 +8,7 @@ Cmdibuzz is a Minecraft Fabric mod (1.20.1) designed to enhance server administr
 
 
 For more information, see the wiki above.
+
+Showcase:
+
+![](https://github.com/snomnomnom/cmdibuzz/blob/master/src/main/resources/cmdibuzzshowcase.gif)
