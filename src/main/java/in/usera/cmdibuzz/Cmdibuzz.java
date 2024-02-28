@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 
 public class Cmdibuzz implements ModInitializer {
     public static final String MOD_ID = "cmdibuzz";
-    public static final String MOD_NAME = "Cmdibuzz";
-    public static final String VERSION = "0.0.1";
 
     public static Cmdibuzz INSTANCE;
 
