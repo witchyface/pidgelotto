@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static in.usera.cmdibuzz.Cmdibuzz.MOD_ID;
 
 public class CmdibuzzConfig {
 
@@ -21,12 +24,10 @@ public class CmdibuzzConfig {
             .disableHtmlEscaping()
             .setPrettyPrinting()
             .create();
-    public static Map<String, List<String>> COMMAND_POOLS = new HashMap();
-
-    public static String TEST_STRING = "This is a test";
+    public static Map<String, List<String>> COMMAND_POOLS = new HashMap<>();
+    public static List<String> CRATE_KEYS = List.of();
 
     public CmdibuzzConfig() {
-
         File configFolder = new File(System.getProperty("user.dir") + "/config/cmdibuzz");
         File configFile = new File(configFolder, "config.json");
         if (!configFolder.exists()) {
@@ -38,16 +39,18 @@ public class CmdibuzzConfig {
 
         try {
             JsonObject obj = this.GSON.fromJson(new FileReader(configFile), JsonObject.class);
-            List<JsonObject> commandPoolsJson = obj.get("command_pools").getAsJsonArray().asList().stream().map(JsonElement::getAsJsonObject).toList();
-            commandPoolsJson.forEach((jsonObject -> {
-                jsonObject.asMap().forEach((name, jsonElement) -> {
-                    List<String> commands = jsonElement.getAsJsonArray().asList().stream().map(JsonElement::getAsString).toList();
-                    COMMAND_POOLS.put(name, commands);
-                    Cmdibuzz.LOGGER.info("Loaded command pool \"" + name + "\" (" + commands.size() + " commands)");
+            List<JsonObject> commandPoolsJson = obj.get("command_pools").getAsJsonArray().asList().stream().map(JsonElement::getAsJsonObject).collect(Collectors.toList());
+            commandPoolsJson.forEach(jsonObject -> {
+                jsonObject.entrySet().forEach(entry -> {
+                    List<String> commands = entry.getValue().getAsJsonArray().asList().stream().map(JsonElement::getAsString).collect(Collectors.toList());
+                    COMMAND_POOLS.put(entry.getKey(), commands);
+                    Cmdibuzz.LOGGER.info("[" + MOD_ID + "]: " + "Loaded command pool \"" + entry.getKey() + "\" (" + commands.size() + " commands)");
+                });
+            });
 
-                }
-                );
-            }));
+            List<JsonElement> crateKeysJson = obj.get("crate_keys").getAsJsonArray().asList();
+            CRATE_KEYS = crateKeysJson.stream().map(JsonElement::getAsString).collect(Collectors.toList());
+            Cmdibuzz.LOGGER.info("[" + MOD_ID + "]: " + "Loaded crate keys (" + CRATE_KEYS.size() + " keys)");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -69,10 +72,19 @@ public class CmdibuzzConfig {
                     .value("give {player} minecraft:coal 1")
                     .value("deop {player}")
                     .endArray().endObject()
+                    .endArray()
+                    .name("crate_keys").beginArray()
+                    .value("example_key_1")
+                    .value("example_key_2")
+                    .value("example_key_3")
                     .endArray().endObject()
                     .flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static CmdibuzzConfig loadConfig() {
+        return new CmdibuzzConfig();
     }
 }

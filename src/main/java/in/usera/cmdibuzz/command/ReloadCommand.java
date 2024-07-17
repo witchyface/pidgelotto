@@ -24,7 +24,6 @@ public class ReloadCommand {
 
     static int execute(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
-        if (Permissions.check(source, "cmdibuzz.command.reload", 3)) {
             try {
                 reload(context.getSource().getServer());
                 source.sendMessage(Text.of("Reload was successful"));
@@ -33,11 +32,7 @@ public class ReloadCommand {
                 e.printStackTrace();
             }
             return 0;
-        } else {
-            source.sendMessage(Text.literal("You do not have permission to use this command!").setStyle(Style.EMPTY.withColor(Formatting.RED)));
-            return 0;
         }
-    }
     public static void reload(MinecraftServer server) throws IOException {
         // Clear the existing configuration data
         CmdibuzzConfig.COMMAND_POOLS.clear();
