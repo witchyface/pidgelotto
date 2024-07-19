@@ -55,9 +55,13 @@ public class CmdibuzzCommand {
                         )
                         .then(
                                 CommandManager.literal("staff").requires(Permissions.require("cmdibuzz.command.staff"))
-                                        .then(CommandManager.literal("givekey")
-                                                .then(crateKeys.then(playerArgument.executes(CmdibuzzCommand::executeGiveKey))))
-                        )
+                                        .then(
+                                                CommandManager.literal("givekey")
+                                                        .then(CommandManager.argument("crates", StringArgumentType.string())
+                                                                .suggests(CmdibuzzCommand::getCrateKeySuggestions)
+                                                                .then(CommandManager.argument("player", GameProfileArgumentType.gameProfile())
+                                                                        .executes(CmdibuzzCommand::executeGiveKey)
+                                                                ))))
         );
     }
 
@@ -99,21 +103,21 @@ public class CmdibuzzCommand {
 
     private static int executeGiveKey(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         ServerCommandSource source = context.getSource();
-        String keyName = context.getArgument("crates", String.class);
+        String keyName = context.getArgument("crates", String.class).replace('_', ' '); // Replace underscores with spaces
         Collection<GameProfile> gameProfiles = GameProfileArgumentType.getProfileArgument(context, "player");
+        try{
 
-        try {
             for (GameProfile profile : gameProfiles) {
                 String command = String.format("padmin givekey %s 1 %s", profile.getName(), keyName);
                 source.getServer().getCommandManager().executeWithPrefix(source.getServer().getCommandSource(), command);
 
-                String logMessage = String.format("[%s] %s gave 1 of %s to %s",
-                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
-                        source.getName(), keyName, profile.getName());
+                String logMessage = String.format("[%s] %s gave 1x of %s to %s",
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
+                    source.getName(), keyName, profile.getName());
 
                 logCommandUsage(logMessage);
                 source.sendMessage(Text.literal("Executed: " + command));
-            }
+        }
 
             return 1;
         } catch (Exception e) {
@@ -124,7 +128,7 @@ public class CmdibuzzCommand {
     }
 
     private static void logCommandUsage(String message) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("logs/staff_keys_issued.log", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("config/cmdibuzz/keys_issued.log", true))) {
             writer.write(message);
             writer.newLine();
         } catch (IOException e) {
@@ -139,7 +143,7 @@ public class CmdibuzzCommand {
     }
 
     private static CompletableFuture<Suggestions> getCrateKeySuggestions(CommandContext<ServerCommandSource> context, SuggestionsBuilder builder) {
-        CmdibuzzConfig.CRATE_KEYS.forEach(builder::suggest);
+        CmdibuzzConfig.CRATE_KEYS.forEach(key -> builder.suggest(key.replace(' ', '_')));
         return builder.buildFuture();
     }
 }
