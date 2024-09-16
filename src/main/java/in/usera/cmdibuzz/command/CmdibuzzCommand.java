@@ -44,7 +44,7 @@ public class CmdibuzzCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
         dispatcher.register(
                 CommandManager.literal("cmdibuzz")
-                        .executes(CmdibuzzCommand::executeBaseCommand) // Allow all players to execute this
+                        .executes(CmdibuzzCommand::executeBaseCommand)
                         .then(
                                 CommandManager.literal("run").requires(Permissions.require("cmdibuzz.command.run"))
                                         .then(poolArgument.then(playerArgument.executes(CmdibuzzCommand::executeRunSubCommand)))
@@ -97,7 +97,7 @@ public class CmdibuzzCommand {
         } catch (Exception e) {
             Cmdibuzz.LOGGER.error("An unexpected error occurred while executing the command: " + e.getMessage());
             e.printStackTrace();
-            return 0; // Return 0 to indicate failure
+            return 0;
         }
     }
 
@@ -123,7 +123,7 @@ public class CmdibuzzCommand {
         } catch (Exception e) {
             Cmdibuzz.LOGGER.error("Error executing givekey command: " + e.getMessage());
             e.printStackTrace();
-            return 0; // Return 0 to indicate failure
+            return 0;
         }
     }
 
