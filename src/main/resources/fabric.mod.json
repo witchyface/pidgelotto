@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "pidgelotto",
+  "version": "${version}",
+  "name": "pidgelotto",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": ""
+  },
+  "license": "All-Rights-Reserved",
+  "icon": " ",
+  "environment": "server",
+  "entrypoints": {
+    "client": [],
+    "main": [
+      "ie.sammie.pidgelotto.Pidgelotto"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "suggests": {
+    "impactor": "*"
+  }
+}
