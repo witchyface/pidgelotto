@@ -18,7 +18,8 @@ The name "Pidgelotto" is a mashup of "Lotto" and the Pokémon "Pidgey"—or even
   - Cooldown between lotteries  
   - Fallback prize in case of error.  
 - **Live Config Reloading:** Apply config changes on the fly without restarting the server.  
-- **Time Command:** Players can check how many seconds are left in the Grace Period, the Lotto, or the Cooldown.  
+- **Time Command:** Players can check how many seconds are left in the Grace Period, the Lotto, or the Cooldown.
+-  **Notification Toggle:** Players can choose whether they want to receive lotto notifications, keeping chat clutter to a minimum.  
 
 With Pidgelotto, you can bring an engaging, automated lottery experience to your server while keeping full control over its mechanics.
 
