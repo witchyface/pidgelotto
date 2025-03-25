@@ -16,7 +16,7 @@ The name "Pidgelotto" is a mashup of "Lotto" and the Pokémon "Pidgey"—or even
   - Ticket purchase limits per player  
   - Lotto duration  
   - Cooldown between lotteries  
-  - Fallback prize in case no winner is drawn  
+  - Fallback prize in case of error.  
 - **Live Config Reloading:** Apply config changes on the fly without restarting the server.  
 - **Time Command:** Players can check how many seconds are left in the Grace Period, the Lotto, or the Cooldown.  
 
